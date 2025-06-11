@@ -22,7 +22,7 @@
 #include <vintf/VintfObject.h>
 #include "utility/ValidateXml.h"
 
-TEST(CheckConfig, approvedBuildValidation) {
+TEST(CheckConfig, kernelLifetimesValidation) {
     if (android::vintf::VintfObject::GetRuntimeInfo()->kernelVersion().dropMinor() <
         android::vintf::Version{4, 14}) {
         GTEST_SKIP() << "Kernel versions below 4.14 are exempt";

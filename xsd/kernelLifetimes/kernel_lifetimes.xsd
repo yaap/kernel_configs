@@ -38,7 +38,7 @@
         <xs:attribute name="eol" type="xs:date" use="required"/>
     </xs:complexType>
     <xs:complexType name="no-releases">
-        <xs:attribute name="reason" type="xs:string" fixed="non-GKI kernel"/>
+        <xs:attribute name="reason" type="xs:string" use="required"/>
     </xs:complexType>
     <xs:complexType name="lts-versions">
         <xs:sequence>
