@@ -24,14 +24,10 @@
 #include "utility/ValidateXml.h"
 
 TEST(CheckConfig, approvedBuildValidation) {
-  const auto kernel_release = android::kver::KernelRelease::Parse(
-      android::vintf::VintfObject::GetRuntimeInfo()->osRelease(),
-      /* allow_suffix = */ true);
-  if (!kernel_release.has_value()) {
-    GTEST_FAIL() << "Failed to parse the kernel release string";
-  }
-  if (kernel_release->android_release() < 14) {
-    GTEST_SKIP() << "Kernel releases below android14 are exempt";
+  if (android::vintf::VintfObject::GetRuntimeInfo()
+          ->kernelVersion()
+          .dropMinor() < android::vintf::Version{6, 6}) {
+    GTEST_SKIP() << "Kernel releases below 6.6 are exempt";
   }
 
   RecordProperty("description",

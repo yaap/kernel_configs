@@ -19,8 +19,33 @@ package {
 
 kernel_config {
     name: "kernel_config_b_6.12",
-    srcs: [
-        "android-base.config",
-    ],
-    meta: "android-base-conditional.xml",
+    srcs: [":kernel_base_config_b_6.12"],
+    meta: ":kernel_meta_b_6.12"
+}
+
+filegroup {
+    name: "kernel_base_config_b_6.12",
+    srcs: select(soong_config_variable("google_tv", "using_tv_gki"), {
+        "true": [
+            ":tv_kernel_base_config_b_6.12",
+        ],
+        default: [
+            "android-base.config",
+        ],
+    }),
+}
+
+genrule {
+    name: "tv_kernel_base_config_b_6.12",
+    srcs: ["android-tv-base.config"],
+    out: ["android-base.config"],
+    cmd: "cp $(in) $(out)",
+}
+
+filegroup {
+    name: "kernel_meta_b_6.12",
+    srcs: select(soong_config_variable("google_tv", "using_tv_gki"), {
+        "true": ["android-tv-base-conditional.xml",],
+        default: ["android-base-conditional.xml",],
+    })
 }
